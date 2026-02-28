@@ -8,11 +8,11 @@ source .venv/bin/activate
 
 # Install dependencies
 echo "Installing Python dependencies..."
-pip install -r requirements.txt
+python3 -m pip install -r requirements.txt
 
 # Load environment variables
 export $(grep -v '^#' .env.local | xargs)
 
 # Start FastAPI server
 echo "Starting FastAPI server on http://localhost:8000"
-python app/api/gemini_api.py
+python3 app/api/gemini_api.py
