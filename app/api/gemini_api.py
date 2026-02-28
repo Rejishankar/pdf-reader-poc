@@ -21,10 +21,11 @@ import re
 # Initialize FastAPI app
 app = FastAPI(title="PDF OCR and Gemini LLM Service")
 
-# Enable CORS for Next.js frontend
+# Enable CORS for frontend integration
+FRONTEND_URL = os.environ.get("FRONTEND_URL", "http://localhost:3000")
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],
+    allow_origins=[FRONTEND_URL],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
