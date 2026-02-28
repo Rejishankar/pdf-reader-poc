@@ -1,0 +1,501 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Improve touch targets on mobile */
+@media (max-width: 640px) {
+  button, a, label {
+    min-height: 44px;
+  }
+}
+
+/* Material-UI Form Styles */
+.MuiTypography-root.MuiTypography-h5,
+legend.MuiFormLabel-root {
+  font-weight: 700 !important;
+  background: linear-gradient(90deg, #EBF4FF 0%, #F0F9FF 100%);
+  padding: 8px 12px !important;
+  border-radius: 6px;
+  border-left: 4px solid #2563EB;
+  margin-bottom: 12px !important;
+  font-size: 0.95rem !important;
+  color: #1E40AF !important;
+}
+
+@media (min-width: 640px) {
+  .MuiTypography-root.MuiTypography-h5,
+  legend.MuiFormLabel-root {
+    padding: 12px 16px !important;
+    margin-bottom: 16px !important;
+    font-size: 1.1rem !important;
+  }
+}
+
+.MuiPaper-root > .MuiBox-root > fieldset > legend {
+  font-weight: 700 !important;
+  background: linear-gradient(90deg, #EBF4FF 0%, #F0F9FF 100%);
+  padding: 8px 12px !important;
+  border-radius: 6px;
+  border-left: 4px solid #2563EB;
+  color: #1E40AF !important;
+}
+
+@media (min-width: 640px) {
+  .MuiPaper-root > .MuiBox-root > fieldset > legend {
+    padding: 12px 16px !important;
+  }
+}
+
+/* Make checkbox labels visible */
+.MuiFormControlLabel-root .MuiTypography-root,
+.MuiCheckbox-root + .MuiTypography-root,
+.MuiFormControlLabel-label {
+  color: #374151 !important;
+  font-size: 0.875rem !important;
+  font-weight: 400 !important;
+}
+
+@media (min-width: 640px) {
+  .MuiFormControlLabel-root .MuiTypography-root,
+  .MuiCheckbox-root + .MuiTypography-root,
+  .MuiFormControlLabel-label {
+    font-size: 0.95rem !important;
+  }
+}
+
+/* Ensure checkbox inputs are visible */
+.MuiCheckbox-root {
+  color: #6B7280 !important;
+}
+
+.MuiCheckbox-root.Mui-checked {
+  color: #2563EB !important;
+}
+
+/* Make form inputs responsive */
+.MuiTextField-root {
+  width: 100%;
+}
+
+.MuiInputBase-root {
+  font-size: 0.875rem !important;
+}
+
+@media (min-width: 640px) {
+  .MuiInputBase-root {
+    font-size: 1rem !important;
+  }
+}
+
+/* PDF Viewer Custom Classes */
+.pdf-viewer-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+}
+
+@media (min-width: 1024px) {
+  .pdf-viewer-container {
+    flex-direction: row;
+  }
+}
+
+.pdf-panel-left {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  background-color: rgb(243 244 246);
+  padding: 0.75rem;
+  height: 50%;
+  overflow-y: auto;
+}
+
+@media (min-width: 640px) {
+  .pdf-panel-left {
+    padding: 1rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .pdf-panel-left {
+    padding: 1.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .pdf-panel-left {
+    width: 50%;
+    height: 100%;
+  }
+}
+
+.pdf-panel-right {
+  width: 100%;
+  background-color: white;
+  border-top: 1px solid rgb(229 231 235);
+  display: flex;
+  flex-direction: column;
+  height: 50%;
+  overflow-y: auto;
+}
+
+@media (min-width: 1024px) {
+  .pdf-panel-right {
+    width: 50%;
+    border-top: none;
+    border-left: 1px solid rgb(229 231 235);
+    height: 100%;
+  }
+}
+
+.pdf-button-container {
+  margin-bottom: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+
+@media (min-width: 640px) {
+  .pdf-button-container {
+    flex-direction: row;
+    align-items: center;
+    gap: 1rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .pdf-button-container {
+    margin-bottom: 1rem;
+  }
+}
+
+.pdf-upload-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background-color: rgb(37 99 235);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+  text-align: center;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
+
+.pdf-upload-button:hover {
+  background-color: rgb(29 78 216);
+}
+
+@media (min-width: 640px) {
+  .pdf-upload-button {
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    line-height: 1.5rem;
+  }
+}
+
+.pdf-cancel-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background-color: rgb(107 114 128);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+  text-align: center;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
+
+.pdf-cancel-button:hover {
+  background-color: rgb(75 85 99);
+}
+
+@media (min-width: 640px) {
+  .pdf-cancel-button {
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    line-height: 1.5rem;
+  }
+}
+
+.pdf-icon-sm {
+  width: 1rem;
+  height: 1rem;
+}
+
+@media (min-width: 640px) {
+  .pdf-icon-sm {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+}
+
+.pdf-icon-lg {
+  width: 4rem;
+  height: 4rem;
+  margin-bottom: 1rem;
+}
+
+@media (min-width: 640px) {
+  .pdf-icon-lg {
+    width: 5rem;
+    height: 5rem;
+  }
+}
+
+.pdf-viewer-frame {
+  flex: 1 1 0%;
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  border-radius: 0.5rem;
+  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  overflow: hidden;
+  min-height: 300px;
+}
+
+@media (min-width: 1024px) {
+  .pdf-viewer-frame {
+    min-height: 0;
+  }
+}
+
+.pdf-viewer-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: rgb(31 41 55);
+  color: white;
+  padding: 0.5rem 0.75rem;
+  gap: 0.5rem;
+}
+
+@media (min-width: 640px) {
+  .pdf-viewer-header {
+    padding: 0.5rem 1rem;
+  }
+}
+
+.pdf-viewer-header-content {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex: 1 1 0%;
+  min-width: 0;
+}
+
+.pdf-filename {
+  font-size: 0.75rem;
+  line-height: 1rem;
+  font-weight: 500;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@media (min-width: 640px) {
+  .pdf-filename {
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+  }
+}
+
+.pdf-empty-state {
+  flex: 1 1 0%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+  border-radius: 0.5rem;
+  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  border: 2px dashed rgb(209 213 219);
+  min-height: 200px;
+}
+
+@media (min-width: 1024px) {
+  .pdf-empty-state {
+    min-height: 0;
+  }
+}
+
+.pdf-empty-state-content {
+  text-align: center;
+  color: rgb(107 114 128);
+  padding: 0 1rem;
+}
+
+.pdf-empty-state-icon {
+  width: 4rem;
+  height: 4rem;
+  margin: 0 auto 1rem;
+  color: rgb(156 163 175);
+}
+
+@media (min-width: 640px) {
+  .pdf-empty-state-icon {
+    width: 5rem;
+    height: 5rem;
+  }
+}
+
+.pdf-empty-state-title {
+  font-size: 1rem;
+  line-height: 1.5rem;
+  font-weight: 500;
+}
+
+@media (min-width: 640px) {
+  .pdf-empty-state-title {
+    font-size: 1.125rem;
+    line-height: 1.75rem;
+  }
+}
+
+.pdf-empty-state-subtitle {
+  font-size: 0.75rem;
+  line-height: 1rem;
+  margin-top: 0.5rem;
+}
+
+@media (min-width: 640px) {
+  .pdf-empty-state-subtitle {
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+  }
+}
+
+.pdf-form-container {
+  flex: 1 1 0%;
+  overflow: auto;
+  padding: 0.75rem;
+}
+
+@media (min-width: 640px) {
+  .pdf-form-container {
+    padding: 1rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .pdf-form-container {
+    padding: 1.5rem;
+  }
+}
+
+.pdf-loading-state {
+  text-align: center;
+  color: rgb(107 114 128);
+  margin-bottom: 1.5rem;
+}
+
+.pdf-loading-text {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: 500;
+}
+
+@media (min-width: 640px) {
+  .pdf-loading-text {
+    font-size: 1rem;
+    line-height: 1.5rem;
+  }
+}
+
+.pdf-no-data-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: rgb(156 163 175);
+  padding: 2rem 0;
+}
+
+.pdf-no-data-text {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: 500;
+}
+
+@media (min-width: 640px) {
+  .pdf-no-data-text {
+    font-size: 1rem;
+    line-height: 1.5rem;
+  }
+}
+
+.pdf-dialog-content {
+  padding: 1.5rem;
+}
+
+.pdf-dialog-title {
+  font-size: 1.125rem;
+  line-height: 1.75rem;
+  font-weight: 600;
+  color: rgb(17 24 39);
+  margin-bottom: 0.5rem;
+}
+
+@media (min-width: 640px) {
+  .pdf-dialog-title {
+    font-size: 1.25rem;
+    line-height: 1.75rem;
+  }
+}
+
+.pdf-dialog-description {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  color: rgb(75 85 99);
+  margin-bottom: 1.5rem;
+}
+
+@media (min-width: 640px) {
+  .pdf-dialog-description {
+    font-size: 1rem;
+    line-height: 1.5rem;
+  }
+}
+
+.pdf-dialog-actions {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: flex-end;
+}
