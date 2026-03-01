@@ -23,9 +23,13 @@ app = FastAPI(title="PDF OCR and Gemini LLM Service")
 
 # Enable CORS for frontend integration
 FRONTEND_URL = os.environ.get("FRONTEND_URL", "http://localhost:3000")
+# Support multiple origins (comma-separated)
+allowed_origins = [origin.strip() for origin in FRONTEND_URL.split(",")] if FRONTEND_URL else ["*"]
+print(f"CORS allowed origins: {allowed_origins}")
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[FRONTEND_URL],
+    allow_origins=allowed_origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
