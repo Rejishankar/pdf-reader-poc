@@ -211,7 +211,6 @@ pdf-reader-demo/
 ├── requirements.txt              # Python packages
 ├── start-python-api.sh           # Quick start script
 ├── package.json                  # Node packages
-└── DEPLOYMENT.md                 # How to deploy (Railway/Render + Vercel)
 ```
 
 ## What You Need in .env.local
