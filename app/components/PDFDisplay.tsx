@@ -1,6 +1,5 @@
 /**
- * PDFDisplay Component
- * Displays the PDF file using iframe
+ * PDFDisplay Component - Displays the PDF file using iframe
  */
 
 'use client';

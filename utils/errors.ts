@@ -62,9 +62,8 @@ export class APIError extends Error {
   }
 }
 
-/**
- * Error Handler Utility
- */
+
+//Error Handler Utility
 export class ErrorHandler {
   static handle(error: unknown): string {
     if (error instanceof PDFError) {

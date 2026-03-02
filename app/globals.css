@@ -69,7 +69,6 @@ legend.MuiFormLabel-root {
   }
 }
 
-/* Make checkbox labels visible */
 .MuiFormControlLabel-root .MuiTypography-root,
 .MuiCheckbox-root + .MuiTypography-root,
 .MuiFormControlLabel-label {
@@ -86,7 +85,6 @@ legend.MuiFormLabel-root {
   }
 }
 
-/* Ensure checkbox inputs are visible */
 .MuiCheckbox-root {
   color: #6B7280 !important;
 }
@@ -95,7 +93,6 @@ legend.MuiFormLabel-root {
   color: #2563EB !important;
 }
 
-/* Make form inputs responsive */
 .MuiTextField-root {
   width: 100%;
 }
@@ -110,7 +107,6 @@ legend.MuiFormLabel-root {
   }
 }
 
-/* PDF Viewer Custom Classes */
 .pdf-viewer-container {
   display: flex;
   flex-direction: column;

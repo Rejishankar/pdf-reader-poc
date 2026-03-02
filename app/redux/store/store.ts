@@ -1,5 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit';
-import pdfReducer from './pdfSlice';
+import pdfReducer from '../reducer/pdfReducer';
 
 export const store = configureStore({
   reducer: {
@@ -8,7 +8,6 @@ export const store = configureStore({
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: {
-        // Ignore File objects in the state
         ignoredActions: ['pdf/setFile'],
         ignoredPaths: ['pdf.file'],
       },

@@ -1,14 +1,12 @@
 /**
- * PDFViewer Component
- * Main orchestrator component for PDF viewing and data extraction
- * Refactored following Single Responsibility Principle
+ * PDFViewer Component - Main component that integrates file upload, PDF display, and form editing
  */
 
 'use client';
 
 import { useState, useRef } from 'react';
 import * as yup from 'yup';
-import { useAppDispatch, useAppSelector } from '../store/hooks';
+import { useAppDispatch, useAppSelector } from '../redux/store/storeHooks';
 import { toast } from 'react-toastify';
 import { Cancel as CancelIcon } from '@mui/icons-material';
 import { Dialog, Button } from '@mui/material';
@@ -21,7 +19,7 @@ import {
   setFormData,
   setJsonSchema,
   resetPDFState,
-} from '../store/pdfSlice';
+} from '../redux/reducer/pdfReducer';
 import { FileUploader } from './FileUploader';
 import { PDFDisplay } from './PDFDisplay';
 import { FormEditor } from './FormEditor';
@@ -46,9 +44,9 @@ export default function PDFViewer() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const isProcessingFile = useRef(false);
 
-  /**
-   * Extract data from PDF using API service
-   */
+  
+  //Extract data from PDF using API service
+
   const extractPDFData = async (file: File) => {
     if (isExtracting || isProcessingFile.current) {
       return;
@@ -95,9 +93,8 @@ export default function PDFViewer() {
     }
   };
 
-  /**
-   * Custom validation using Yup schema
-   */
+
+  //Custom validation using Yup schema
   const customValidate = (formData: any, errors: any, yupSchema: yup.ObjectSchema<any>) => {
     try {
       yupSchema.validateSync(formData, { abortEarly: false });
@@ -127,9 +124,9 @@ export default function PDFViewer() {
     return errors;
   };
 
-  /**
-   * Handle form submission - save to JSON file
-   */
+ 
+  //Handle form submission - save to JSON file
+  
   const handleFormSubmit = async (data: any) => {
     setIsSubmitting(true);
 
@@ -162,16 +159,13 @@ export default function PDFViewer() {
     }
   };
 
-  /**
-   * Handle form data changes
-   */
+  
+  // Handle form data changes
   const handleFormChange = (data: any) => {
     dispatch(setFormData(data.formData));
   };
 
-  /**
-   * Handle file selection
-   */
+  // Handle file selection
   const handleFileSelect = async (selectedFile: File) => {
     if (isProcessingFile.current || isExtracting) {
       return;
@@ -186,7 +180,7 @@ export default function PDFViewer() {
       const url = URL.createObjectURL(selectedFile);
       dispatch(setPdfUrl(url));
 
-      await extractPDFData(selectedFile);
+      extractPDFData(selectedFile);
     } catch (err: unknown) {
       let errorMessage = 'Failed to process file';
       
@@ -212,16 +206,12 @@ export default function PDFViewer() {
     }
   };
 
-  /**
-   * Handle cancel action
-   */
+  // Handle cancel action
   const handleCancel = () => {
     setShowCancelDialog(true);
   };
 
-  /**
-   * Confirm cancel and reset all state
-   */
+  // Confirm cancel and reset all state
   const confirmCancel = () => {
     if (pdfUrl) {
       URL.revokeObjectURL(pdfUrl);
@@ -274,7 +264,6 @@ export default function PDFViewer() {
         </div>
       </div>
 
-      {/* Cancel Confirmation Dialog */}
       <Dialog
         open={showCancelDialog}
         onClose={() => setShowCancelDialog(false)}

@@ -1,6 +1,5 @@
 /**
- * FileUploader Component
- * Handles PDF file selection and validation
+ * FileUploader Component - Handles PDF file selection and validation
  */
 
 'use client';
@@ -12,7 +11,6 @@ import { ValidationUtils } from '../../utils/validation';
 import { ErrorHandler } from '../../utils/errors';
 
 interface FileUploaderProps {
-  // callback may return a promise (PDFViewer uses an async handler)
   onFileSelect: (file: File) => void | Promise<void>;
   onCancel: () => void;
   hasFile: boolean;
@@ -35,7 +33,7 @@ export const FileUploader: React.FC<FileUploaderProps> = ({
     }
 
     try {
-      // Validate file - will throw error if validation fails
+      // Validate file
       ValidationUtils.validatePDFFile(selectedFile);
       
       await onFileSelect(selectedFile as File);

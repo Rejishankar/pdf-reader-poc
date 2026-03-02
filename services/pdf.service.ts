@@ -1,6 +1,4 @@
-/**
- * PDF Service - Handles all PDF-related API calls
- */
+//PDF Service - Handles all PDF-related API calls
 
 import config from '../config/app.config';
 import { PDFExtractionResponse } from '../types/pdf.types';
@@ -15,9 +13,8 @@ export class PDFService {
     this.timeout = config.api.timeout;
   }
 
-  /**
-   * Extract data from PDF file
-   */
+
+ // Extract data from PDF file
   async extractPDFData(file: File): Promise<PDFExtractionResponse> {
     const formData = new FormData();
     formData.append('file', file);
@@ -29,13 +26,14 @@ export class PDFService {
       const response = await fetch(`${this.baseUrl}/extract-pdf`, {
         method: 'POST',
         body: formData,
+        signal: controller.signal,
       });
 
       clearTimeout(timeoutId);
 
       const result = await response.json();
 
-      const buildMessage = (err: any) => {
+      const buildErrorMessage = (err: any) => {
         if (!err) return '';
         if (typeof err === 'string') return err;
         if (err.message && typeof err.message === 'string') return err.message;
@@ -47,12 +45,12 @@ export class PDFService {
       };
 
       if (!response.ok) {
-        const errMsg = buildMessage(result.error) || 'Failed to extract data';
+        const errMsg = buildErrorMessage(result.error) || 'Failed to extract data';
         throw new APIError(errMsg, response.status, result);
       }
 
       if (result.success === false) {
-        const errMsg = buildMessage(result.error) || 'AI extraction failed';
+        const errMsg = buildErrorMessage(result.error) || 'AI extraction failed';
         throw new PDFExtractionError(errMsg, result);
       }
 
@@ -67,9 +65,7 @@ export class PDFService {
     }
   }
 
-  /**
-   * Transform single-element arrays to strings
-   */
+  //Transform single-element arrays to strings
   static transformArraysToStrings(data: any): any {
     if (data === null || data === undefined) {
       return data;

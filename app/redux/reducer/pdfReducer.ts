@@ -25,7 +25,7 @@ const initialState: PDFState = {
   jsonSchema: null,
 };
 
-const pdfSlice = createSlice({
+const pdfReducer = createSlice({
   name: 'pdf',
   initialState,
   reducers: {
@@ -63,6 +63,6 @@ export const {
   setFormData,
   setJsonSchema,
   resetPDFState,
-} = pdfSlice.actions;
+} = pdfReducer.actions;
 
-export default pdfSlice.reducer;
+export default pdfReducer.reducer;

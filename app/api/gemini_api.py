@@ -57,7 +57,7 @@ register_error_handlers(app)
 
 # Enable CORS for frontend integration
 FRONTEND_URL = os.environ.get("FRONTEND_URL", "http://localhost:3000")
-# Support multiple origins (comma-separated)
+
 allowed_origins = (
     [origin.strip() for origin in FRONTEND_URL.split(",")] if FRONTEND_URL else ["*"]
 )
@@ -106,7 +106,6 @@ def extract_text_from_pdf_ocr(pdf_path: str) -> str:
     try:
         logger.info(f"Converting text from PDF: {pdf_path}")
 
-        # Validate file exists
         if not os.path.exists(pdf_path):
             raise OCRError(
                 code=ErrorCode.OCR_EXTRACTION_FAILED,
@@ -212,18 +211,15 @@ Now extract the actual field values from this text:
         response_text = response.text.strip()
         logger.debug(f"Response text length: {len(response_text)} chars")
 
-        # Try to find JSON in the response
         if response_text.startswith("{"):
             extracted_data = json.loads(response_text)
         else:
-            # Try to extract JSON from markdown code blocks
             json_match = re.search(
                 r"```(?:json)?\s*(\{.*?\})\s*```", response_text, re.DOTALL
             )
             if json_match:
                 extracted_data = json.loads(json_match.group(1))
             else:
-                # Return as raw text if can't parse
                 logger.warning("Could not parse JSON from Gemini response")
                 extracted_data = {"rawResponse": response_text}
 
@@ -283,7 +279,7 @@ async def extract_pdf(file: UploadFile = File(...)) -> LLMResponse:
             details={"filename": file.filename, "allowed_types": [".pdf"]},
         )
 
-    # Validate file size (10MB limit)
+    # Validate file size
     content = await file.read()
     file_size = len(content)
     max_size = 10 * 1024 * 1024  # 10MB
@@ -323,10 +319,6 @@ async def extract_pdf(file: UploadFile = File(...)) -> LLMResponse:
         )
 
         return LLMResponse(success=True, data=structured_data, error=None)
-
-    except (ValidationError, OCRError, AIExtractionError):
-        # Re-raise custom errors to be handled by exception handlers
-        raise
 
     except Exception as e:
         logger.error(

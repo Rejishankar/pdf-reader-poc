@@ -1,6 +1,5 @@
 /**
- * FormEditor Component
- * Handles the extracted data form editing
+ * FormEditor Component -  Handles the extracted data form editing
  */
 
 'use client';

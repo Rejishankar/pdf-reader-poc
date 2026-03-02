@@ -1,6 +1,5 @@
 /**
  * Application Configuration
- * Centralized configuration management for the application
  */
 
 export interface AppConfig {

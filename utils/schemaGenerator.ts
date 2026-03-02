@@ -1,15 +1,12 @@
-/**
- * JSON Schema Generator
- * Generates JSON Schema from extracted data
- */
+
+//JSON Schema Generator - Generates JSON Schema from extracted data
+
 
 import { RJSFSchema } from '@rjsf/utils';
 import { ValidationUtils } from './validation';
 
 export class SchemaGenerator {
-  /**
-   * Generate JSON Schema from extracted data
-   */
+
   static generateSchema(data: any): RJSFSchema {
     const schema: RJSFSchema = {
       type: 'object',
@@ -20,9 +17,6 @@ export class SchemaGenerator {
     return schema;
   }
 
-  /**
-   * Generate properties recursively
-   */
   private static generateProperties(obj: any, depth: number = 0): any {
     const properties: any = {};
 
@@ -34,13 +28,9 @@ export class SchemaGenerator {
     return properties;
   }
 
-  /**
-   * Generate schema for a single property
-   */
   private static generatePropertySchema(key: string, value: any, depth: number): any {
     const title = ValidationUtils.formatTitle(key);
 
-    // Handle null/undefined/empty values
     if (value === null || value === undefined || value === '') {
       return {
         type: 'string',
@@ -49,7 +39,6 @@ export class SchemaGenerator {
       };
     }
 
-    // Handle nested objects
     if (typeof value === 'object' && !Array.isArray(value)) {
       return {
         type: 'object',
@@ -59,9 +48,7 @@ export class SchemaGenerator {
       };
     }
 
-    // Handle arrays
     if (Array.isArray(value)) {
-      // Single string element - treat as string
       if (value.length === 1 && typeof value[0] === 'string') {
         return {
           type: 'string',
@@ -70,7 +57,6 @@ export class SchemaGenerator {
         };
       }
 
-      // Array schema
       return {
         type: 'array',
         title,
@@ -78,7 +64,6 @@ export class SchemaGenerator {
       };
     }
 
-    // Handle booleans
     if (typeof value === 'boolean') {
       return {
         type: 'boolean',
@@ -87,7 +72,6 @@ export class SchemaGenerator {
       };
     }
 
-    // Handle numbers
     if (typeof value === 'number') {
       return {
         type: 'number',
@@ -96,7 +80,6 @@ export class SchemaGenerator {
       };
     }
 
-    // Handle strings
     return {
       type: 'string',
       title,
@@ -104,9 +87,6 @@ export class SchemaGenerator {
     };
   }
 
-  /**
-   * Infer item type for arrays
-   */
   private static inferItemType(item: any): any {
     if (item === null || item === undefined) {
       return { type: 'string' };
