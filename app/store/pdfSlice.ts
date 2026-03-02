@@ -11,7 +11,6 @@ interface PDFState {
   error: string;
   extractedData: ExtractedData | null;
   isExtracting: boolean;
-  useOCR: boolean;
   formData: any;
   jsonSchema: RJSFSchema | null;
 }
@@ -22,7 +21,6 @@ const initialState: PDFState = {
   error: '',
   extractedData: null,
   isExtracting: false,
-  useOCR: false,
   formData: null,
   jsonSchema: null,
 };

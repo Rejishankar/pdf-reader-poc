@@ -1,8 +1,10 @@
 services:
   - type: web
     name: pdf-extractor-api
-    env: python
+    env: docker
     dockerfilePath: ./Dockerfile
     envVars:
       - key: GEMINI_API_KEY
         sync: false
+      - key: PORT
+        value: 8000

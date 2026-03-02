@@ -79,7 +79,22 @@ Pretty simple:
 
 ## The Python API
 
-The backend runs on port 8000 and has one main endpoint:
+The backend runs on port 8000 with a modular, production-ready architecture:
+
+### Architecture Highlights
+
+**Modular Design:**
+- `gemini_api.py` - Main API endpoints and business logic
+- `exceptions.py` - Custom exception classes and error codes
+- `error_handlers.py` - Global error handlers for consistent responses
+
+**Features:**
+- Structured error handling with standardized error codes
+- Comprehensive logging (startup, shutdown, requests, errors)
+- File validation (type, size limits)
+- Graceful error responses with detailed context
+
+### API Endpoints
 
 ### POST /extract-pdf
 Send a PDF, get structured JSON back.
@@ -100,9 +115,36 @@ curl -X POST http://localhost:8000/extract-pdf \
       "name": "FirstNM LastNM",
       "email": "firstNM@example.com"
     }
+  },
+  "error": null
+}
+```
+
+**On error:**
+```json
+{
+  "success": false,
+  "error": {
+    "code": "INVALID_FILE_TYPE",
+    "message": "Only PDF files are supported",
+    "details": {
+      "filename": "document.txt",
+      "allowed_types": [".pdf"]
+    }
   }
 }
 ```
+
+**Error Codes:**
+- `VALIDATION_ERROR` - Invalid request data
+- `FILE_TOO_LARGE` - File exceeds 50MB limit
+- `INVALID_FILE_TYPE` - Non-PDF file uploaded
+- `OCR_EXTRACTION_FAILED` - OCR processing failed
+- `NO_TEXT_EXTRACTED` - No text found in PDF
+- `AI_EXTRACTION_FAILED` - Gemini API error
+- `AI_TIMEOUT` - AI processing timeout
+- `PROCESSING_FAILED` - Unexpected processing error
+- `INTERNAL_SERVER_ERROR` - Server error
 
 ### GET /health
 ```bash
@@ -160,6 +202,9 @@ The whole thing uses:
 - **Material-UI** for nice-looking components
 - **Yup** for field validation (emails, phone numbers, etc.)
 - **Toast notifications** to keep you informed
+- **Structured error handling** with custom exceptions and error codes
+- **Python logging module** for comprehensive logging
+- **Modular architecture** for maintainability and testability
 
 ## Common Issues and Fixes
 
@@ -187,17 +232,32 @@ pip install -r requirements.txt
 **OCR quality is bad**
 - Try better quality scans
 - The code uses 300 DPI by default (good enough for most docs)
-- You can bump it to 600 DPI if needed (line 53 in `gemini_api.py`)
+- You can bump it to 600 DPI if needed (line in `gemini_api.py` in `extract_text_from_pdf_ocr` function)
+
+**"File too large" error**
+- Maximum file size is 50MB
+- Compress the PDF or split it into smaller files
+
+**Getting validation errors**
+- Check the error response for detailed information
+- The API returns structured errors with specific error codes and details
 
 ## Project Layout
 
 ```
-pdf-reader-demo/
+pdf-reader-poc/
 ├── app/
 │   ├── api/
-│   │   └── gemini_api.py         # Python FastAPI backend
+│   │   ├── __init__.py           # Package initialization
+│   │   ├── gemini_api.py         # Python FastAPI backend (main API)
+│   │   ├── exceptions.py         # Custom exceptions and error codes
+│   │   └── error_handlers.py    # Global error handlers
 │   ├── components/
-│   │   └── PDFViewer.tsx         # Main React component
+│   │   ├── PDFViewer.tsx         # Main React component
+│   │   ├── FileUploader.tsx      # File upload component
+│   │   ├── FormEditor.tsx        # Form editor component
+│   │   ├── PDFDisplay.tsx        # PDF display component
+│   │   └── ErrorBoundary/        # Error boundary components
 │   ├── store/                    # Redux state management
 │   │   ├── store.ts
 │   │   ├── pdfSlice.ts
@@ -206,11 +266,22 @@ pdf-reader-demo/
 │   ├── globals.css               # All the styles
 │   ├── layout.tsx                # App wrapper
 │   └── page.tsx                  # Home page
+├── config/
+│   └── app.config.ts             # App configuration
+├── services/
+│   └── pdf.service.ts            # PDF service layer
+├── types/
+│   └── pdf.types.ts              # TypeScript types
+├── utils/
+│   ├── errors.ts                 # Error utilities
+│   ├── schemaGenerator.ts        # Schema generation
+│   └── validation.ts             # Validation utilities
 ├── .venv/                        # Python environment
 ├── .env.local                    # Your secrets
 ├── requirements.txt              # Python packages
 ├── start-python-api.sh           # Quick start script
 ├── package.json                  # Node packages
+└── README.md                     # This file
 ```
 
 ## What You Need in .env.local
@@ -223,5 +294,9 @@ NEXT_PUBLIC_PYTHON_API_URL=http://localhost:8000
 ## Development Tips
 
 - **Run both servers** - Frontend needs the Python API to work
-- **Check Python terminal** - All OCR/AI errors show up there
+- **Check Python terminal** - All OCR/AI errors show up there with structured logging
 - **Use FastAPI docs** - http://localhost:8000/docs is great for testing
+- **Error responses** - All API errors return structured JSON with error codes and details
+- **Logging levels** - Change `level=logging.INFO` to `logging.DEBUG` in `gemini_api.py` for more verbose logs
+- **File size limits** - Default is 50MB, configurable in the validation logic
+- **Modular code** - Exceptions in `exceptions.py`, error handlers in `error_handlers.py`
