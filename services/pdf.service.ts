@@ -3,7 +3,7 @@
  */
 
 import config from '../config/app.config';
-import { PDFExtractionResponse, ExtractedData } from '../types/pdf.types';
+import { PDFExtractionResponse } from '../types/pdf.types';
 import { APIError, PDFExtractionError, ErrorHandler } from '../utils/errors';
 
 export class PDFService {
@@ -62,22 +62,6 @@ export class PDFService {
         throw new PDFExtractionError('Request timed out. Please try again.');
       }
 
-      ErrorHandler.log(error);
-      throw error;
-    }
-  }
-
-  /**
-   * Check API health
-   */
-  async checkHealth(): Promise<{ status: string; service: string }> {
-    try {
-      const response = await fetch(`${this.baseUrl}/health`);
-      if (!response.ok) {
-        throw new APIError('Health check failed', response.status);
-      }
-      return await response.json();
-    } catch (error) {
       ErrorHandler.log(error);
       throw error;
     }
