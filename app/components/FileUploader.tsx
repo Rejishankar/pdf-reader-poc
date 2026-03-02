@@ -7,10 +7,13 @@
 
 import { ChangeEvent } from 'react';
 import { CloudUpload as UploadIcon, Cancel as CancelIcon } from '@mui/icons-material';
+import { toast } from 'react-toastify';
 import { ValidationUtils } from '../../utils/validation';
+import { ErrorHandler } from '../../utils/errors';
 
 interface FileUploaderProps {
-  onFileSelect: (file: File) => void;
+  // callback may return a promise (PDFViewer uses an async handler)
+  onFileSelect: (file: File) => void | Promise<void>;
   onCancel: () => void;
   hasFile: boolean;
   isProcessing: boolean;
@@ -24,7 +27,7 @@ export const FileUploader: React.FC<FileUploaderProps> = ({
   isProcessing,
   isSubmitting,
 }) => {
-  const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = async (event: ChangeEvent<HTMLInputElement>) => {
     const selectedFile = event.target.files?.[0];
 
     if (!selectedFile || isProcessing) {
@@ -34,12 +37,15 @@ export const FileUploader: React.FC<FileUploaderProps> = ({
     try {
       // Validate file - will throw error if validation fails
       ValidationUtils.validatePDFFile(selectedFile);
-      onFileSelect(selectedFile);
+      
+      await onFileSelect(selectedFile as File);
     } catch (error) {
-      // Clear the input
       event.target.value = '';
-      // Re-throw to be handled by parent component
-      throw error;
+      console.error('[FileUploader] error during file select', error);
+      toast.error(ErrorHandler.handle(error), {
+        position: 'top-right',
+        autoClose: 5000,
+      });
     }
   };
 

@@ -35,16 +35,25 @@ export class PDFService {
 
       const result = await response.json();
 
+      const buildMessage = (err: any) => {
+        if (!err) return '';
+        if (typeof err === 'string') return err;
+        if (err.message && typeof err.message === 'string') return err.message;
+        try {
+          return JSON.stringify(err);
+        } catch {
+          return String(err);
+        }
+      };
+
       if (!response.ok) {
-        throw new APIError(
-          result.error || 'Failed to extract data',
-          response.status,
-          result
-        );
+        const errMsg = buildMessage(result.error) || 'Failed to extract data';
+        throw new APIError(errMsg, response.status, result);
       }
 
       if (result.success === false) {
-        throw new PDFExtractionError(result.error || 'AI extraction failed', result);
+        const errMsg = buildMessage(result.error) || 'AI extraction failed';
+        throw new PDFExtractionError(errMsg, result);
       }
 
       return result;

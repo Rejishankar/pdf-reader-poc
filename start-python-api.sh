@@ -15,4 +15,4 @@ export $(grep -v '^#' .env.local | xargs)
 
 # Start FastAPI server
 echo "Starting FastAPI server on http://localhost:8000"
-python3 app/api/gemini_api.py
+python3 -m app.api.gemini_api

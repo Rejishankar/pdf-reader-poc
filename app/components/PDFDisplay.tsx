@@ -38,6 +38,10 @@ export const PDFDisplay: React.FC<PDFDisplayProps> = ({ pdfUrl, fileName, error 
     );
   }
 
+  const viewerUrl = pdfUrl
+    ? `${pdfUrl}#toolbar=0&navpanes=0&scrollbar=0`
+    : pdfUrl;
+
   return (
     <div className="pdf-viewer-frame">
       <div className="pdf-viewer-header">
@@ -49,7 +53,7 @@ export const PDFDisplay: React.FC<PDFDisplayProps> = ({ pdfUrl, fileName, error 
 
       <div className="flex-1 overflow-hidden">
         <iframe
-          src={pdfUrl}
+          src={viewerUrl}
           className="w-full h-full border-0"
           title="PDF Viewer"
         />

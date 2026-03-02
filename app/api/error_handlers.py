@@ -17,10 +17,10 @@ logger = logging.getLogger(__name__)
 
 
 async def pdf_processing_error_handler(request: Request, exc: PDFProcessingError):
-    """Handle custom PDF processing errors"""
-    logger.error(f"PDF Processing Error: {exc.code} - {exc.message}", exc_info=True)
+    """Handle custom PDF processing errors."""
+    logger.info(f"Handled PDF Processing Error: {exc.code} - {exc.message}")
     return JSONResponse(
-        status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+        status_code=status.HTTP_200_OK,
         content={
             "success": False,
             "error": {
@@ -30,7 +30,6 @@ async def pdf_processing_error_handler(request: Request, exc: PDFProcessingError
             }
         }
     )
-
 
 async def http_exception_handler(request: Request, exc: HTTPException):
     """Handle FastAPI HTTP exceptions"""
