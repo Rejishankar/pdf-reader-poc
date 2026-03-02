@@ -264,10 +264,10 @@ async def extract_pdf(file: UploadFile = File(...)) -> LLMResponse:
             details={"filename": file.filename, "allowed_types": [".pdf"]}
         )
     
-    # Validate file size (50MB limit)
+    # Validate file size (10MB limit)
     content = await file.read()
     file_size = len(content)
-    max_size = 50 * 1024 * 1024  # 50MB
+    max_size = 10 * 1024 * 1024  # 10MB
     
     if file_size > max_size:
         raise ValidationError(

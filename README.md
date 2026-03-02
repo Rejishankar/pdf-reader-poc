@@ -26,11 +26,6 @@ You'll need these installed first:
 brew install tesseract poppler
 ```
 
-**On Ubuntu/Debian:**
-```bash
-sudo apt-get install tesseract-ocr poppler-utils
-```
-
 ### Setup
 
 1. **Python:**
@@ -88,12 +83,6 @@ The backend runs on port 8000 with a modular, production-ready architecture:
 - `exceptions.py` - Custom exception classes and error codes
 - `error_handlers.py` - Global error handlers for consistent responses
 
-**Features:**
-- Structured error handling with standardized error codes
-- Comprehensive logging (startup, shutdown, requests, errors)
-- File validation (type, size limits)
-- Graceful error responses with detailed context
-
 ### API Endpoints
 
 ### POST /extract-pdf
@@ -137,7 +126,7 @@ curl -X POST http://localhost:8000/extract-pdf \
 
 **Error Codes:**
 - `VALIDATION_ERROR` - Invalid request data
-- `FILE_TOO_LARGE` - File exceeds 50MB limit
+- `FILE_TOO_LARGE` - File exceeds 10MB limit
 - `INVALID_FILE_TYPE` - Non-PDF file uploaded
 - `OCR_EXTRACTION_FAILED` - OCR processing failed
 - `NO_TEXT_EXTRACTED` - No text found in PDF
@@ -235,7 +224,7 @@ pip install -r requirements.txt
 - You can bump it to 600 DPI if needed (line in `gemini_api.py` in `extract_text_from_pdf_ocr` function)
 
 **"File too large" error**
-- Maximum file size is 50MB
+- Maximum file size is 10MB
 - Compress the PDF or split it into smaller files
 
 **Getting validation errors**
@@ -298,5 +287,5 @@ NEXT_PUBLIC_PYTHON_API_URL=http://localhost:8000
 - **Use FastAPI docs** - http://localhost:8000/docs is great for testing
 - **Error responses** - All API errors return structured JSON with error codes and details
 - **Logging levels** - Change `level=logging.INFO` to `logging.DEBUG` in `gemini_api.py` for more verbose logs
-- **File size limits** - Default is 50MB, configurable in the validation logic
+- **File size limits** - Default is 10MB, configurable in the validation logic
 - **Modular code** - Exceptions in `exceptions.py`, error handlers in `error_handlers.py`

@@ -1,5 +1,5 @@
 import PDFViewer from './components/PDFViewer';
-import { ErrorBoundary } from './components/ErrorBoundary/ErrorBoundary';
+import { ErrorBoundary } from './components/ErrorBoundary';
 
 export default function Home() {
   return (

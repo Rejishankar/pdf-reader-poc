@@ -248,21 +248,3 @@ URL: ${typeof window !== 'undefined' ? window.location.href : 'unknown'}
     return children;
   }
 }
-
-/**
- * Hook-based wrapper for ErrorBoundary (for convenience)
- */
-export function withErrorBoundary<P extends object>(
-  Component: React.ComponentType<P>,
-  errorBoundaryProps?: Omit<ErrorBoundaryProps, 'children'>
-) {
-  const WrappedComponent = (props: P) => (
-    <ErrorBoundary {...errorBoundaryProps}>
-      <Component {...props} />
-    </ErrorBoundary>
-  );
-
-  WrappedComponent.displayName = `withErrorBoundary(${Component.displayName || Component.name || 'Component'})`;
-
-  return WrappedComponent;
-}
