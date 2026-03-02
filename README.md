@@ -25,7 +25,6 @@ You'll need these installed first:
 ```bash
 brew install tesseract poppler
 ```
-
 ### Setup
 
 1. **Python:**
@@ -76,12 +75,61 @@ Pretty simple:
 
 The backend runs on port 8000 with a modular, production-ready architecture:
 
+### Architecture & Design Patterns
+
+The backend implements several design patterns for maintainability and scalability:
+
+**1. Separation of Concerns**
+- `gemini_api.py` - API routes and business logic
+- `exceptions.py` - Error definitions and models
+- `error_handlers.py` - Centralized error handling
+- Clear separation between concerns improves testability
+
+**2. Factory Pattern**
+- `register_error_handlers(app)` - Centralized handler registration
+- Error handler factory encapsulates handler setup
+
+**3. Exception Hierarchy**
+- Base `PDFProcessingError` class
+- Specialized exceptions: `OCRError`, `AIExtractionError`, `ValidationError`
+- Consistent error handling with error codes and details
+
+**4. Middleware Pattern**
+- CORS middleware for cross-origin requests
+- Error handling middleware intercepts all exceptions
+- Centralized request/response processing
+
+**5. Dependency Injection**
+- FastAPI's built-in DI for request handling
+- Modular imports support testing with mocks
+
+**6. RESTful API Design**
+- Resource-based endpoints (`/extract-pdf`, `/health`)
+- HTTP status codes (200, 422, 500)
+- JSON request/response format
+
+**7. Error Response Pattern**
+- Standardized error codes (enum-based)
+- Structured error responses with code, message, and details
+- Consistent error format across all endpoints
+
+**8. Logging Pattern**
+- Structured logging with levels (INFO, DEBUG, ERROR)
+- Contextual logging throughout request lifecycle
+- Centralized logger configuration
+
 ### Architecture Highlights
 
 **Modular Design:**
 - `gemini_api.py` - Main API endpoints and business logic
 - `exceptions.py` - Custom exception classes and error codes
 - `error_handlers.py` - Global error handlers for consistent responses
+
+**Features:**
+- Structured error handling with standardized error codes
+- Comprehensive logging (startup, shutdown, requests, errors)
+- File validation (type, size limits)
+- Graceful error responses with detailed context
 
 ### API Endpoints
 
@@ -145,11 +193,17 @@ Visit http://localhost:8000/docs to play with the API in your browser.
 
 ## Testing Just the Python Part
 
+**Method 1: Using the startup script (recommended)**
+```bash
+./start-python-api.sh
+```
+
+**Method 2: Manual startup**
 ```bash
 # Start it up
 source .venv/bin/activate
 export GEMINI_API_KEY=your_key
-python app/api/gemini_api.py
+python3 -m app.api.gemini_api
 ```
 
 Then try these:
@@ -236,8 +290,9 @@ pip install -r requirements.txt
 ```
 pdf-reader-poc/
 ├── app/
+│   ├── __init__.py               # Root package initialization
 │   ├── api/
-│   │   ├── __init__.py           # Package initialization
+│   │   ├── __init__.py           # API package initialization
 │   │   ├── gemini_api.py         # Python FastAPI backend (main API)
 │   │   ├── exceptions.py         # Custom exceptions and error codes
 │   │   └── error_handlers.py    # Global error handlers
