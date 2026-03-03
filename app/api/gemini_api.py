@@ -137,8 +137,6 @@ def extract_text_from_pdf_ocr(pdf_path: str) -> str:
 
         return cleaned_text
 
-    except OCRError:
-        raise
     except Exception as e:
         logger.error(
             f"Error in extract_text_from_pdf_ocr: {type(e).__name__}: {e}",
