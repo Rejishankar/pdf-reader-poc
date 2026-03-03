@@ -151,17 +151,17 @@ User edits and saves as JSON file
 **Key Design Decisions:**
 
 **1. Single Slice Pattern**
-- All PDF-related state in one slice (`pdfSlice.ts`)
+- All PDF-related state in one slice (`pdfReducer.ts`)
 - **Benefit:** Easier to reason about state changes
 
 **2. Separate Raw and Transformed Data**
-- `extractedData`: Original API response (preserved)
+- `extractedData`: Original API response
 - `formData`: Transformed for form rendering
 - **Benefit:** Can regenerate form without re-fetching
 
 **3. Synchronous Actions Only**
 - API calls in component layer
-- **Rationale:** Keep state management simple
+- Keep state management simple
 - **Benefit:** Clear separation: components handle I/O, Redux handles state
 
 **4. Reset Pattern**
