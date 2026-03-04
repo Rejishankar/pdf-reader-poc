@@ -180,17 +180,9 @@ User edits and saves as JSON file
 - Component-scoped lifecycle
 - Simpler to manage locally
 
-### State Update Flow
+## Application Screenshot
+<img width="1690" height="903" alt="image" src="https://github.com/user-attachments/assets/443a7a63-8458-4815-b93b-9d6cca38c5ad" />
 
-```
-User Action
-    |
-Component dispatches Redux action
-    |
-Redux reducer updates state
-    |
-Connected components re-render
-    |
-UI reflects new state
-```
+
+
 ---
